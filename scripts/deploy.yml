@@ -1,5 +1,5 @@
 --- 
-- hosts: "{{ current_hostname }}"
+- hosts: localhost
   become: True
   gather_facts: true
   vars:
