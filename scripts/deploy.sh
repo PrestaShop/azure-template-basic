@@ -179,7 +179,7 @@ ANSIBLE_CONFIG_FILE="/etc/ansible/ansible.cfg"
 
 EXTRA_VARS="${CWD}/extra_vars.json"
 
-##
+## main 
 fix_etc_hosts
 ssh_config
 install_ansible
