@@ -1,6 +1,6 @@
 {
   "dnsNameForAnsiblePublicIP": {
-    "value": "prestashopvm"
+    "value": "prestashophl"
   },
   "hcPublicIPAddressName": {
     "value": "pspubip"
@@ -48,7 +48,7 @@
     "value": "172.16.0.0/16"
   },
   "hcSubnetName": {
-    "value": "hc-subnet"
+    "value": "ps-subnet"
   },
   "location": {
     "value": "northeurope"
