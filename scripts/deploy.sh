@@ -28,33 +28,6 @@ function ssh_config()
   printf "Host *\n  user %s\n  StrictHostKeyChecking no\n" "${ANSIBLE_USER}"  >> "/home/${ANSIBLE_USER}/.ssh/config"
   
   error_log "Unable to create ssh config file for user ${ANSIBLE_USER}"
-  
-  log "Copy generated keys..."
-  
-  cp id_rsa "/home/${ANSIBLE_USER}/.ssh/id_rsa"
-  error_log "Unable to copy id_rsa key to $ANSIBLE_USER .ssh directory"
-
-  cp id_rsa.pub "/home/${ANSIBLE_USER}/.ssh/id_rsa.pub"
-  error_log "Unable to copy id_rsa.pub key to $ANSIBLE_USER .ssh directory"
-  
-  cat "/home/${ANSIBLE_USER}/.ssh/id_rsa.pub" >> "/home/${ANSIBLE_USER}/.ssh/authorized_keys"
-  error_log "Unable to copy $ANSIBLE_USER id_rsa.pub to authorized_keys "
-
-  chmod 700 "/home/${ANSIBLE_USER}/.ssh"
-  error_log "Unable to chmod $ANSIBLE_USER .ssh directory"
-
-  chown -R "${ANSIBLE_USER}:" "/home/${ANSIBLE_USER}/.ssh"
-  error_log "Unable to chown to $ANSIBLE_USER .ssh directory"
-
-  chmod 400 "/home/${ANSIBLE_USER}/.ssh/id_rsa"
-  error_log "Unable to chmod $ANSIBLE_USER id_rsa file"
-
-  chmod 644 "/home/${ANSIBLE_USER}/.ssh/id_rsa.pub"
-  error_log "Unable to chmod $ANSIBLE_USER id_rsa.pub file"
-
-  chmod 400 "/home/${ANSIBLE_USER}/.ssh/authorized_keys"
-  error_log "Unable to chmod $ANSIBLE_USER authorized_keys file"
-  
 }
 
 function install_ansible()
@@ -175,7 +148,7 @@ function create_extra_vars()
 
 function deploy_prestashop()
 {
-  ansible-playbook deploy.yml --extra-vars "@${EXTRA_VARS}" > /tmp/ansible-prestashop.log 2>&1
+  ansible-playbook deploy.yml -i "localhost," --connection=local --extra-vars "@${EXTRA_VARS}" > /tmp/ansible-prestashop.log 2>&1
   error_log "Fail to deploy front cluster !"
 }
 
@@ -215,8 +188,6 @@ get_roles
 configure_deployment
 create_extra_vars
 deploy_prestashop
-
-
 
 log "Success : End of Execution of Install Script from CustomScript"
 
