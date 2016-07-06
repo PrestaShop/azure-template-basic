@@ -20,7 +20,7 @@
       shell: >
         php {{ prestashop_dir }}/install/index_cli.php
         --domain="{{ domain | quote }}"
-        --db_server="{{ groups['master'][0] }}"
+        --db_server="localhost"
         --db_name="{{ prestashop_dbname | quote }}"
         --db_user="{{ prestashop_user | quote }}"
         --db_password="{{ prestashop_password | quote }}"
@@ -30,7 +30,6 @@
         --email="{{ prestashop_email | quote }}"
         --newsletter=0
         --send_email=0
-      when: current_hostname == "{{ groups['front'][0] }}"
       register: php_result
         
     - name: "Remove Install Directory"
