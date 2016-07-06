@@ -1,0 +1,10 @@
+# install_roles.yml
+- src: geerlingguy.php
+- src: geerlingguy.apache
+- src: https://github.com/herveleclerc/ansible-role-mysql.git
+  scm: git
+- src: geerlingguy.apache-php-fpm 
+- src: carlosbuenosvinos.ansistrano-deploy 
+- src: carlosbuenosvinos.ansistrano-rollback
+- src: https://github.com/herveleclerc/ansible-init-raid.git
+  scm: git

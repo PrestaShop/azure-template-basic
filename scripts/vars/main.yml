@@ -1,0 +1,192 @@
+vmsize: "{{gabarit|default('ds1')}}"
+data:
+  ds1:
+    mem: "3584"
+    mysql_innodb_buffer_pool_size: "216M"
+    mysql_innodb_log_file_size: "54M"
+    mysql_max_connections: "200"
+    mysql_innodb_file_per_table: "1"
+    mysql_innodb_flush_log_at_trx_commit: "1"
+    mysql_innodb_log_buffer_size: "2M"
+    mysql_query_cache_size: "0"
+  ds2:
+    mem: "7168"
+    mysql_innodb_buffer_pool_size: "430M"
+    mysql_innodb_log_file_size: "110M"
+    mysql_max_connections: "300"
+    mysql_innodb_file_per_table: "1"
+    mysql_innodb_flush_log_at_trx_commit: "1"
+    mysql_innodb_log_buffer_size: "4M"
+    mysql_query_cache_size: "0"
+  ds3:
+    mem: "14336"
+    mysql_innodb_buffer_pool_size: "860M"
+    mysql_innodb_log_file_size: "210M"
+    mysql_max_connections: "400"
+    mysql_innodb_file_per_table: "1"
+    mysql_innodb_flush_log_at_trx_commit: "1"
+    mysql_innodb_log_buffer_size: "4M"
+    mysql_query_cache_size: "0"
+  ds4:
+    mem: "28672"
+    mysql_innodb_buffer_pool_size: "1720M"
+    mysql_innodb_log_file_size: "430M"
+    mysql_max_connections: "500"
+    mysql_innodb_file_per_table: "1"
+    mysql_innodb_flush_log_at_trx_commit: "1"
+    mysql_innodb_log_buffer_size: "4M"
+    mysql_query_cache_size: "0"
+  ds11:
+    mem: "14336"
+    mysql_innodb_buffer_pool_size: "8600M"
+    mysql_innodb_log_file_size: "210M"
+    mysql_max_connections: "1000"
+    mysql_innodb_file_per_table: "1"
+    mysql_innodb_flush_log_at_trx_commit: "1"
+    mysql_innodb_log_buffer_size: "6M"
+    mysql_query_cache_size: "0"
+  ds12:
+    mem: "28672"
+    mysql_innodb_buffer_pool_size: "1720M"
+    mysql_innodb_log_file_size: "430M"
+    mysql_max_connections: "2000"
+    mysql_innodb_file_per_table: "1"
+    mysql_innodb_flush_log_at_trx_commit: "1"
+    mysql_innodb_log_buffer_size: "8M"
+    mysql_query_cache_size: "0"
+  ds13:
+    mem: "57344"
+    mysql_innodb_buffer_pool_size: "3440M"
+    mysql_innodb_log_file_size: "860M"
+    mysql_max_connections: "2000"
+    mysql_innodb_file_per_table: "1"
+    mysql_innodb_flush_log_at_trx_commit: "1"
+    mysql_innodb_log_buffer_size: "8M"
+    mysql_query_cache_size: "0"
+  ds14:
+    mem: "114688"
+    mysql_innodb_buffer_pool_size: "6680M"
+    mysql_innodb_log_file_size: "1720M"
+    mysql_max_connections: "2000"
+    mysql_innodb_file_per_table: "1"
+    mysql_innodb_flush_log_at_trx_commit: "1"
+    mysql_innodb_log_buffer_size: "10M"
+    mysql_query_cache_size: "0"
+  ds15:
+    mem: "143360"
+    mysql_innodb_buffer_pool_size: "8600M"
+    mysql_innodb_log_file_size: "2100M"
+    mysql_max_connections: "2000"
+    mysql_innodb_file_per_table: "1"
+    mysql_innodb_flush_log_at_trx_commit: "1"
+    mysql_innodb_log_buffer_size: "8M"
+    mysql_query_cache_size: "0"
+    
+
+mysql_innodb_buffer_pool_size: "{{ data[vmsize].mysql_innodb_buffer_pool_size }}"
+mysql_innodb_log_file_size: "{{ data[vmsize].mysql_innodb_log_file_size }}"
+mysql_max_connections: "{{ data[vmsize].mysql_max_connections }}"
+mysql_innodb_file_per_table: "{{ data[vmsize].mysql_innodb_file_per_table }}"
+mysql_innodb_flush_log_at_trx_commit: "{{ data[vmsize].mysql_innodb_flush_log_at_trx_commit }}"
+mysql_innodb_log_buffer_size: "{{ data[vmsize].mysql_innodb_log_buffer_size }}"
+mysql_query_cache_size: "{{ data[vmsize].mysql_query_cache_size }}"
+
+
+raid_file_system: "xfs"
+raid_mountpoint: "/data"
+raid_device: "/dev/md127"
+system_devices: "/dev/sda|/dev/sdb"
+
+documentroot: "{{ raid_mountpoint }}/www/azureshop"
+prestashop_dir: "{{ documentroot }}/current/prestashop"
+
+prestashop_firstname: "herve"
+prestashop_lastname: "leclerc"
+prestashop_email: "herve.leclerc@alterway.fr"
+prestashop_dbname: "prestashop"
+prestashop_user: "prestashop"
+prestashop_password: "prestashop"
+
+prestashop_fqdn: "azureshop.com"
+prestashop_owner: "www-data"
+prestashop_group: "www-data"
+
+azure_suffix: ".cloudapp.azure.com"
+
+apache_remove_default_vhost: true
+apache_listen_port: 80
+apache_listen_port_ssl: 443
+apache_vhosts:
+  - servername:  "{{ prestashop_lb_name }}{{ azure_suffix }}"
+    serveralias: "{{ prestashop_fqdn }}"
+    documentroot: "{{ prestashop_dir }}"
+    extra_parameters: |
+              ProxyPassMatch ^/(.*\.php(/.*)?)$ "fcgi://127.0.0.1:9000{{ prestashop_dir }}"
+   
+apache_mods_enabled:
+  - rewrite.load
+  - actions.load 
+  - alias.load
+  - expires.load
+
+php_enable_php_fpm: true
+php_use_managed_ini: true
+php_opcache_enabled_in_ini: true
+php_opcache_enable: "1"
+php_opcache_enable_cli: "0"
+php_opcache_memory_consumption: "96"
+php_opcache_interned_strings_buffer: "16"
+php_opcache_max_accelerated_files: "4096"
+php_opcache_max_wasted_percentage: "5"
+php_opcache_validate_timestamps: "1"
+php_opcache_revalidate_freq: "2"
+php_opcache_max_file_size: "0"
+
+php_enable_apc: false
+
+# php.ini values
+php_memory_limit: "512M"
+
+php_packages:
+  - php7.0-common
+  - php7.0-cli
+  - php7.0-fpm
+  - php7.0-gd
+  - php7.0-curl
+  - php7.0-opcache
+  - php7.0-xml
+  - php7.0-mbstring
+  - php7.0-mysql
+  - php7.0-mcrypt 
+
+
+# Localisation
+#mysql_datadir: "/var/lib/mysql"
+mysql_datadir: "{{ raid_mountpoint }}/lib/mysql"
+
+# Mysql Default
+mysql_enabled_on_startup: yes
+mysql_root_password: "{{ prestashop_password }}"
+overwrite_global_mycnf: yes
+
+mysql_databases: 
+  - name: "{{ prestashop_dbname }}"
+    encoding: utf8
+    collation: utf8_general_ci
+    replicate: 1
+    
+mysql_users: 
+  - name: "{{ prestashop_user }}"
+    host: "%"
+    password: "{{ prestashop_password }}"
+    priv: "{{ prestashop_dbname }}.*:ALL"
+ 
+ansistrano_deploy_via: "download_unarchive"    
+ansistrano_get_url: "https://github.com/PrestaShop/azure-template-performance/releases/download/1615/prestashop1615frtar.gz"
+ansistrano_deploy_to: "/{{ raid_mountpoint }}/www/azureshop"
+ansistrano_allow_anonymous_stats: no
+
+lsyncd_directories:
+  - "{{ documentroot }}/releases/{{ ansistrano_release_version }}/prestashop"
+  
+  

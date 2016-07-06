@@ -1,0 +1,315 @@
+{
+  "handler":"Microsoft.Compute.MultiVm",
+  "version":"0.0.1-preview",
+  "parameters":{
+    "basics":[
+      {
+        "name":"shopSize",
+        "type":"Microsoft.Common.DropDown",
+        "label":"Databse Shop Size",
+        "defaultValue":"Small",
+        "toolTip":"The size of Disk virtual machines to use in the cluster.",
+        "constraints":{
+          "allowedValues":[
+            {
+              "label":"Small =<100 items in catalog",
+              "value":"Small"
+            },
+            {
+              "label":"Medium >100 <=100 items in catalog",
+              "value":"Medium"
+            },
+            {
+              "label":"Large > 1000 items in catalog",
+              "value":"Large"
+            }
+          ]
+        }
+      },
+      {
+        "name":"section1",
+        "type":"Microsoft.Common.Section",
+        "label":"VM Credentials",
+        "elements":[
+          {
+            "name":"adminUsername",
+            "type":"Microsoft.Compute.UserNameTextBox",
+            "label":"VM username",
+            "toolTip":"Administrative username for the virtual machines.",
+            "osPlatform":"Linux",
+            "constraints":{
+              "required":true
+            }
+          },
+          {
+            "name":"adminPassword",
+            "type":"Microsoft.Compute.CredentialsCombo",
+            "label":{
+              "authenticationType":"Authentication type",
+              "password":"Password",
+              "confirmPassword":"Confirm password",
+              "sshPublicKey":"SSH public key"
+            },
+            "constraints":{
+              "required":true
+            },
+            "options":{
+              "hideConfirmation":false,
+              "hidePassword":true
+            },
+            "osPlatform":"Linux"
+          }
+        ]
+      }
+    ],
+    "steps":[
+      {
+        "name":"deploymentDetails",
+        "label":"Deployment Parameters",
+        "subLabel":{
+          "preValidation":"Required",
+          "postValidation":"Done"
+        },
+        "bladeTitle":"Deployment Parameters",
+        "elements":[
+          {
+            "name":"hcPublicIP",
+            "type":"Microsoft.Network.PublicIpAddressCombo",
+            "label":{
+              "publicIpAddress":"Public IP address for Prestashop VM",
+              "domainNameLabel":"Domain Name Suffix for Prestashop VM"
+            },
+            "defaultValue":{
+              "publicIpAddressName":"pspubip"
+            },
+            "constraints":{
+              "required":{
+                "domainNameLabel":true
+              }
+            },
+            "options":{
+              "hideNone":true,
+              "hideDomainNameLabel":false,
+              "hideExisting":true
+            }
+          },
+          {
+            "name":"virtualNetworkName",
+            "type":"Microsoft.Network.VirtualNetworkCombo",
+            "label":{
+              "virtualNetwork":"Virtual Network",
+              "subnets":"Subnets"
+            },
+            "defaultValue":{
+              "name":"vnet-prestashop"
+            },
+            "constraints":{
+              "minAddressPrefixSize":"/16"
+            },
+            "options":{
+              "hideExisting":true
+            },
+            "subnets":{
+              "subnet1":{
+                "label":"Prestashop subnet",
+                "defaultValue":{
+                  "name":"ps-subnet",
+                  "addressPrefixSize":"/24",
+                  "requireContiguousAddresses":true
+                },
+                "constraints":{
+                  "minAddressPrefixSize":"/24"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name":"clusterinfo",
+        "label":"Virtual Machines Parameters",
+        "subLabel":{
+          "preValidation":"Required",
+          "postValidation":"Done"
+        },
+        "bladeTitle":"Virtual Machines Parameters",
+        "elements":[
+         {
+            "name":"hcNetworkSecurityGroupName",
+            "type":"Microsoft.Common.TextBox",
+            "label":"Network Security Group Name for Jumpbox",
+            "defaultValue":"hcNetworkSecurityGroup",
+            "toolTip":"Network Security Group Name for Jumpbox",
+            "visible": false,
+            "constraints":{
+              "required":true,
+              "regex":"^[a-zA-Z0-9]{2,24}$",
+              "validationMessage":"Network Security Group Name must contain at least 2 characters and can contain only numbers and letters."
+            }
+          },
+          {
+            "name":"hcVmSize",
+            "type":"Microsoft.Compute.SizeSelector",
+            "label":"JumpBox/NFS VM Size",
+            "toolTip":"The size of the JumpBox NFS VM",
+            "recommendedSizes":[
+              "Standard_DS1",
+              "Standard_DS2",
+              "Standard_DS3"
+            ],
+            "constraints":{
+              "allowedSizes":[
+                "Standard_DS1",
+                "Standard_DS2",
+                "Standard_DS3",
+                "Standard_DS4",
+                "Standard_DS5",
+                "Standard_DS6",
+                "Standard_DS7",
+                "Standard_DS8",
+                "Standard_DS9",
+                "Standard_DS10",
+                "Standard_DS11",
+                "Standard_DS12",
+                "Standard_DS13",
+                "Standard_DS14",
+                "Standard_DS1_v2",
+                "Standard_DS2_v2",
+                "Standard_DS3_v2",
+                "Standard_DS4_v2",
+                "Standard_DS5_v2",
+                "Standard_DS6_v2",
+                "Standard_DS7_v2",
+                "Standard_DS8_v2",
+                "Standard_DS9_v2",
+                "Standard_DS10_v2",
+                "Standard_DS11_v2",
+                "Standard_DS12_v2",
+                "Standard_DS13_v2",
+                "Standard_DS14_v2",
+                "Standard_DS15_v2"
+              ],
+              "excludedSizes":[
+
+              ]
+            },
+            "osPlatform":"Linux",
+            "imageReference":{
+              "publisher":"prestashop",
+              "offer":"ubuntu-base-for-prestashop",
+              "sku":"ubuntu_base_16_04_no_price"
+            },
+            "count":1,
+            "visible":true
+          },
+          {
+            "name":"storageAccountJumpbox",
+            "type":"Microsoft.Storage.StorageAccountSelector",
+            "label":"Storage account for Jumpbox/NFS",
+            "toolTip":"Storage account where the Jumpbox/NFS VM disks will be stored.",
+            "defaultValue":{
+              "type":"Premium_LRS"
+            },
+            "options":{
+              "hideExisting":true
+            },
+            "constraints":{
+              "required":true,
+              "excludedTypes":[
+                "Standard_LRS",
+                "Standard_GRS",
+                "Standard_RAGRS"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name":"prestashopInfo",
+        "label":"PrestaShop Parameters",
+        "subLabel":{
+          "preValidation":"Required",
+          "postValidation":"Done"
+        },
+        "bladeTitle":"PrestaShop Parameters",
+        "elements":[
+          {
+            "name":"prestashop_firstname",
+            "type":"Microsoft.Common.TextBox",
+            "label":"First name",
+            "defaultValue":"",
+            "toolTip":"PrestaShop administrator first name.",
+            "constraints":{
+              "required":true,
+              "regex":"^[a-zA-Z0-9]{2,24}$",
+              "validationMessage":"First name must contain at least 2 characters and can contain only numbers and lowercase letters."
+            }
+          },
+          {
+            "name":"prestashop_lastname",
+            "type":"Microsoft.Common.TextBox",
+            "label":"Last name",
+            "defaultValue":"",
+            "toolTip":"PrestaShop administrator last name",
+            "constraints":{
+              "required":true,
+              "regex":"^[a-zA-Z0-9]{2,24}$",
+              "validationMessage":"Last name must contain at least 2 characters and can contain only numbers and lowercase letters."
+            }
+          },
+          {
+            "name":"prestashop_email",
+            "type":"Microsoft.Common.TextBox",
+            "label":"E-mail",
+            "defaultValue":"",
+            "toolTip":"PrestaShop administrator e-mail",
+            "constraints":{
+              "required":true,
+              "regex":"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$",
+              "validationMessage":"The e-mail address must be correctly formed."
+            }
+          },
+          {
+            "name":"prestashop_password",
+            "type":"Microsoft.Common.PasswordBox",
+            "label":{
+              "password":"Password",
+              "confirmPassword":"Confirm password"
+            },
+            "toolTip":"PrestaShop administrator password",
+            "constraints":{
+              "required":true,
+              "regex":"^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\\d\\W])|(?=.*\\W)(?=.*\\d))|(?=.*\\W)(?=.*[A-Z])(?=.*\\d)).{6,72}$",
+              "validationMessage":"The password must be between 6 and 72 characters long, and contain characters from at least 3 of the following groups: uppercase characters, lowercase characters, numbers, and special characters."
+            },
+            "options":{
+              "hideConfirmation":false
+            }
+          }
+        ]
+      }
+    ],
+    "outputs":{
+      "dnsNameForAnsiblePublicIP":"[steps('deploymentDetails').hcPublicIP.domainNameLabel]",
+      "hcPublicIPAddressName":"[steps('deploymentDetails').hcPublicIP.name]",
+      "adminUsername":"[basics('section1').adminUsername]",
+      "authenticationType":"[basics('section1').adminPassword.authenticationType]",
+      "adminPassword":"[basics('section1').adminPassword.password]",
+      "sshKeyData":"[basics('section1').adminPassword.sshPublicKey]",
+      "hcVmSize":"[steps('clusterinfo').hcVmSize]",
+      "hcStorageAccountName":"[steps('clusterinfo').storageAccountJumpbox.name]",
+      "hcStorageAccountType":"[steps('clusterinfo').storageAccountJumpbox.type]",
+      "hcNetworkSecurityGroupName":"[steps('clusterinfo').hcNetworkSecurityGroupName]",
+      "shopSize":"[basics('shopSize')]",
+      "prestashop_firstname":"[steps('prestashopInfo').prestashop_firstname]",
+      "prestashop_lastname":"[steps('prestashopInfo').prestashop_lastname]",
+      "prestashop_email":"[steps('prestashopInfo').prestashop_email]",
+      "prestashop_password":"[steps('prestashopInfo').prestashop_password]",
+      "hcSubnetPrefix":"[steps('deploymentDetails').virtualNetworkName.subnets.subnet1.addressPrefix]",
+      "virtualNetworkName":"[steps('deploymentDetails').virtualNetworkName.name]",
+      "addressPrefix":"[steps('deploymentDetails').virtualNetworkName.addressPrefix]",
+      "hcSubnetName":"[steps('deploymentDetails').virtualNetworkName.subnets.subnet1.name]",  
+      "location":"[location()]"
+    }
+  }
+}
