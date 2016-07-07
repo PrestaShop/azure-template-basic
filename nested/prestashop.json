@@ -153,7 +153,7 @@
       "computerName":"[parameters('hcVmName')]",
       "adminUsername":"[parameters('adminUsername')]",
       "linuxConfiguration":{
-        "disablePasswordAuthentication":"true",
+        "disablePasswordAuthentication":"false",
         "ssh":{
           "publicKeys":[
             {
