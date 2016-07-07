@@ -24,9 +24,9 @@ function ssh_config()
 {
   log "Configure ssh..."
   log "Create ssh configuration for ${ANSIBLE_USER}"
-  
+
   printf "Host *\n  user %s\n  StrictHostKeyChecking no\n" "${ANSIBLE_USER}"  >> "/home/${ANSIBLE_USER}/.ssh/config"
-  
+
   error_log "Unable to create ssh config file for user ${ANSIBLE_USER}"
 }
 
@@ -38,35 +38,35 @@ function install_ansible()
       log "Lock detected on apt-get while install Try again..."
       sleep 2
     done
-    
+
     log "Install ppa:ansible/ansible ..."
     until apt-add-repository --yes ppa:ansible/ansible
     do
       log "Lock detected on apt-get while install Try again..."
       sleep 2
     done
-    
+
     log "Update System ..."
     until apt-get --yes update
     do
       log "Lock detected on apt-get while install Try again..."
       sleep 2
     done
-    
+
     log "Install Ansible ..."
     until apt-get --yes install ansible
     do
       log "Lock detected on apt-get while install Try again..."
       sleep 2
     done
-    
+
     log "Install sshpass"
     until apt-get --yes install sshpass
     do
       log "Lock detected on apt-get while install Try again..."
       sleep 2
     done
-   
+
     log "Install git ..."
     until apt-get --yes install git
     do
@@ -80,7 +80,7 @@ function install_ansible()
       log "Lock detected on apt-get while install Try again..."
       sleep 2
     done
-    
+
     log "Install pip ..."
     until apt-get --yes install python-pip
     do
@@ -104,15 +104,15 @@ function configure_ansible()
   error_log "Unable to remove /etc/ansible directory"
   mkdir -p /etc/ansible
   error_log "Unable to create /etc/ansible directory"
-  
+
   # Remove Deprecation warning
   printf "[defaults]\ndeprecation_warnings = False\nhost_key_checking = False\n\n"    >>  "${ANSIBLE_CONFIG_FILE}"
-  
+
   # Shorten the ControlPath to avoid errors with long host names , long user names or deeply nested home directories
-  echo  $'[ssh_connection]\ncontrol_path = ~/.ssh/ansible-%%h-%%r'                    >> "${ANSIBLE_CONFIG_FILE}"   
+  echo  $'[ssh_connection]\ncontrol_path = ~/.ssh/ansible-%%h-%%r'                    >> "${ANSIBLE_CONFIG_FILE}"
   # fix ansible bug
-  printf "\npipelining = True\n"                                                      >> "${ANSIBLE_CONFIG_FILE}"   
-  
+  printf "\npipelining = True\n"                                                      >> "${ANSIBLE_CONFIG_FILE}"
+
 
 }
 
@@ -131,12 +131,11 @@ function configure_deployment()
   mv main.yml vars/main.yml
   mv mysql_default.yml vars/mysql_default.yml
   error_log "Fail to move mysql default vars file to directory vars"
-  
 }
 
 function create_extra_vars()
 {
-  d="$(date -u +%Y%m%d%H%M%SZ)"  
+  d="$(date -u +%Y%m%d%H%M%SZ)"
   printf "{\n  \"ansistrano_release_version\": \"%s\",\n" "${d}"            > "${EXTRA_VARS}"
   printf "  \"prestashop_lb_name\": \"%s\",\n" "${lbName}"                 >> "${EXTRA_VARS}"
   printf "  \"gabarit\": \"%s\",\n" "${gabarit}"                           >> "${EXTRA_VARS}"
@@ -179,7 +178,7 @@ ANSIBLE_CONFIG_FILE="/etc/ansible/ansible.cfg"
 
 EXTRA_VARS="${CWD}/extra_vars.json"
 
-## main 
+## main
 fix_etc_hosts
 ssh_config
 install_ansible

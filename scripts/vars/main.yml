@@ -81,7 +81,6 @@ data:
     mysql_innodb_flush_log_at_trx_commit: "1"
     mysql_innodb_log_buffer_size: "8M"
     mysql_query_cache_size: "0"
-    
 
 mysql_innodb_buffer_pool_size: "{{ data[vmsize].mysql_innodb_buffer_pool_size }}"
 mysql_innodb_log_file_size: "{{ data[vmsize].mysql_innodb_log_file_size }}"
