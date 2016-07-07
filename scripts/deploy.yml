@@ -1,4 +1,4 @@
---- 
+---
 - hosts: localhost
   become: True
   gather_facts: true
@@ -8,12 +8,12 @@
     - vars/main.yml
 
   roles:
-    - { role: ansible-init-raid }   
-    - { role: geerlingguy.apache } 
+    - { role: ansible-init-raid }
+    - { role: geerlingguy.apache }
     - { role: geerlingguy.php }
     - { role: geerlingguy.apache-php-fpm }
     - { role: carlosbuenosvinos.ansistrano-deploy }
-    - { role: ansible-role-mysql }  
+    - { role: ansible-role-mysql }
 
   tasks:
     - name: "Install prestashop default shop"
@@ -31,12 +31,12 @@
         --newsletter=0
         --send_email=0
       register: php_result
-        
+
     - name: "Remove Install Directory"
       file: path="{{ prestashop_dir }}/install" state=absent
       when: php_result.rc == 0
-      
-    - name: "Finalize files permission on {{ documentroot }}" 
-      file: dest="{{ documentroot }}" state=directory 
+
+    - name: "Finalize files permission on {{ documentroot }}"
+      file: dest="{{ documentroot }}" state=directory
             owner="{{ prestashop_owner }}" group="{{ prestashop_group }}"
-            recurse=yes 
+            recurse=yes
