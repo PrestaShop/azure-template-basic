@@ -55,7 +55,7 @@
             },
             "options":{
               "hideConfirmation":false,
-              "hidePassword":true
+              "hidePassword":false
             },
             "osPlatform":"Linux"
           }
