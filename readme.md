@@ -1,4 +1,4 @@
-test template with these commands
+Test template with these commands
 
 `azure group create basicdep northeurope`  
 ```bash

@@ -8,7 +8,7 @@
         "type":"Microsoft.Common.DropDown",
         "label":"Databse Shop Size",
         "defaultValue":"Small",
-        "toolTip":"The size of Disk virtual machines to use in the cluster.",
+        "toolTip":"The size of Disk virtual machine.",
         "constraints":{
           "allowedValues":[
             {
@@ -35,7 +35,7 @@
             "name":"adminUsername",
             "type":"Microsoft.Compute.UserNameTextBox",
             "label":"VM username",
-            "toolTip":"Administrative username for the virtual machines.",
+            "toolTip":"Administrative username for the virtual machine.",
             "osPlatform":"Linux",
             "constraints":{
               "required":true
@@ -137,9 +137,9 @@
          {
             "name":"hcNetworkSecurityGroupName",
             "type":"Microsoft.Common.TextBox",
-            "label":"Network Security Group Name for Jumpbox",
+            "label":"Network Security Group Name for Prestashop VM",
             "defaultValue":"hcNetworkSecurityGroup",
-            "toolTip":"Network Security Group Name for Jumpbox",
+            "toolTip":"Network Security Group Name for Prestashop",
             "visible": false,
             "constraints":{
               "required":true,
@@ -151,7 +151,7 @@
             "name":"hcVmSize",
             "type":"Microsoft.Compute.SizeSelector",
             "label":"JumpBox/NFS VM Size",
-            "toolTip":"The size of the JumpBox NFS VM",
+            "toolTip":"The size of the Prestashop VM",
             "recommendedSizes":[
               "Standard_DS1",
               "Standard_DS2",
@@ -206,7 +206,7 @@
             "name":"storageAccountJumpbox",
             "type":"Microsoft.Storage.StorageAccountSelector",
             "label":"Storage account for Jumpbox/NFS",
-            "toolTip":"Storage account where the Jumpbox/NFS VM disks will be stored.",
+            "toolTip":"Storage account where the Prestashop VM disks will be stored.",
             "defaultValue":{
               "type":"Premium_LRS"
             },
@@ -308,7 +308,7 @@
       "hcSubnetPrefix":"[steps('deploymentDetails').virtualNetworkName.subnets.subnet1.addressPrefix]",
       "virtualNetworkName":"[steps('deploymentDetails').virtualNetworkName.name]",
       "addressPrefix":"[steps('deploymentDetails').virtualNetworkName.addressPrefix]",
-      "hcSubnetName":"[steps('deploymentDetails').virtualNetworkName.subnets.subnet1.name]",  
+      "hcSubnetName":"[steps('deploymentDetails').virtualNetworkName.subnets.subnet1.name]",
       "location":"[location()]"
     }
   }
