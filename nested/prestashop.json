@@ -113,7 +113,7 @@
       "type":"string",
       "metadata":{
         "description":"Storage Account Name for diags"
-      }      
+      }
     }
   },
   "variables":{
@@ -123,9 +123,10 @@
     "vnetID":"[resourceId('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
     "hcSubnetRef":"[concat(variables('vnetID'),'/subnets/',parameters('hcSubnetName'))]",
     "sshKeyPath":"[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
-    "imagePublisher":"Canonical",
-    "imageOffer":"UbuntuServer",
+    "imagePublisher":"prestashop",
+    "imageOffer":"ubuntu-base-for-prestashop",
     "ubuntuOSVersion":"16.04.0-LTS",
+    "sku":"ubuntu_base_16_04",
     "hcOSDiskName":"hcosdisk",
     "scriptsBaseUrl":"https://raw.githubusercontent.com/PrestaShop/azure-template-basic/master/scripts/",
     "ansiblePlaybookLocation":"deploy.yml",
@@ -140,7 +141,6 @@
     "ansibleVarsUrl":"[concat(variables('scriptsBaseUrl'),variables('ansibleVarsLocation'))]",
     "ansibleVarsDefaultsUrl":"[concat(variables('scriptsBaseUrl'),variables('ansibleVarsDefaultLocation'))]",
     "hcSubnetRoot":"[concat( split(parameters('hcSubnetPrefix'), '.')[0], '.', split(parameters('hcSubnetPrefix'), '.')[1], '.', split(parameters('hcSubnetPrefix'), '.')[2])]",
-    
     "paramsExtra":"[concat(parameters('dnsNameForAnsiblePublicIP'),'.',variables('location'),'\" \"',parameters('prestashop_password'))]",
     "paramsAdmin":"[concat(parameters('prestashop_firstname'),'\" \"',parameters('prestashop_lastname'),'\" \"',parameters('prestashop_email'),'\" \"',toLower(parameters('hcVmSize')))]",
     "paramsDeploy":"[concat(parameters('adminUsername'),'\" \"',variables('paramsExtra'),'\" \"',variables('paramsAdmin'))]",
@@ -263,7 +263,7 @@
           "imageReference":{
             "publisher":"[variables('imagePublisher')]",
             "offer":"[variables('imageOffer')]",
-            "sku":"[variables('ubuntuOSVersion')]",
+            "sku":"[variables('sku')]",
             "version":"latest"
           },
           "osDisk":{
