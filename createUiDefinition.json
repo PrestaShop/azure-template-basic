@@ -197,7 +197,7 @@
             "imageReference":{
               "publisher":"prestashop",
               "offer":"ubuntu-base-for-prestashop",
-              "sku":"ubuntu_base_16_04_no_price"
+              "sku":"ubuntu_base_16_04"
             },
             "count":1,
             "visible":true
