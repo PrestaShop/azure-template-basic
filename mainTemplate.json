@@ -168,7 +168,8 @@
       "compute":"2015-06-15",
       "deployment":"2016-02-01"
     },
-    "hcVmName":"[concat('ans', resourceGroup().name)]",
+    "cleanRGP":"[replace(resourceGroup().name,'_','')]",
+    "hcVmName":"[concat('ans', variables('cleanRGP'))]",
     "hcSubnetRoot":"[concat( split(parameters('hcSubnetPrefix'), '.')[0], '.', split(parameters('hcSubnetPrefix'), '.')[1], '.', split(parameters('hcSubnetPrefix'), '.')[2])]"
   },
   "resources":[
