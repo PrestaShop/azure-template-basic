@@ -254,6 +254,11 @@
       "dependsOn":[
         "[concat('Microsoft.Network/networkInterfaces/', variables('hcNicName'))]"
       ],
+      "plan": {
+        "publisher": "[variables('imagePublisher')]",
+        "product": "[variables('imageOffer')]",
+        "name": "[variables('sku')]"
+      },
       "properties":{
         "hardwareProfile":{
           "vmSize":"[parameters('hcVmSize')]"
