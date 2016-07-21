@@ -168,7 +168,7 @@
       "compute":"2015-06-15",
       "deployment":"2016-02-01"
     },
-    "cleanRGP":"[replace(resourceGroup().name,'_','')]",
+    "cleanRGP":"[uniqueString(resourceGroup().id, deployment().name)]",
     "hcVmName":"[concat('ans', variables('cleanRGP'))]",
     "hcSubnetRoot":"[concat( split(parameters('hcSubnetPrefix'), '.')[0], '.', split(parameters('hcSubnetPrefix'), '.')[1], '.', split(parameters('hcSubnetPrefix'), '.')[2])]"
   },
