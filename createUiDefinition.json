@@ -6,7 +6,7 @@
       {
         "name":"shopSize",
         "type":"Microsoft.Common.DropDown",
-        "label":"Databse Shop Size",
+        "label":"Database Shop Size",
         "defaultValue":"Small",
         "toolTip":"The size of Disk virtual machine.",
         "constraints":{
@@ -16,7 +16,7 @@
               "value":"Small"
             },
             {
-              "label":"Medium >100 <=100 items in catalog",
+              "label":"Medium >100 <=1000 items in catalog",
               "value":"Medium"
             },
             {
@@ -143,7 +143,7 @@
             "constraints":{
               "required":true,
               "regex":"^[a-zA-Z0-9]{2,24}$",
-              "validationMessage":"Network Security Group Name must contain at least 2 characters and can contain only numbers and letters."
+              "validationMessage":"Network Security Group Name must contain at least 2 characters and can contain only numbers and letters. regexp: ^[a-zA-Z0-9]{2,24}$"
             }
           },
           {
@@ -241,7 +241,7 @@
             "constraints":{
               "required":true,
               "regex":"^[a-zA-Z0-9]{2,24}$",
-              "validationMessage":"First name must contain at least 2 characters and can contain only numbers and lowercase letters."
+              "validationMessage":"First name must contain at least 2 characters and can contain only numbers and lowercase letters. regexp: ^[a-zA-Z0-9]{2,24}$"
             }
           },
           {
@@ -253,7 +253,7 @@
             "constraints":{
               "required":true,
               "regex":"^[a-zA-Z0-9]{2,24}$",
-              "validationMessage":"Last name must contain at least 2 characters and can contain only numbers and lowercase letters."
+              "validationMessage":"Last name must contain at least 2 characters and can contain only numbers and lowercase letters. regexp: ^[a-zA-Z0-9]{2,24}$"
             }
           },
           {
@@ -265,7 +265,7 @@
             "constraints":{
               "required":true,
               "regex":"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$",
-              "validationMessage":"The e-mail address must be correctly formed."
+              "validationMessage":"The e-mail address must be correctly formed. regexp: ^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
             }
           },
           {
@@ -279,7 +279,7 @@
             "constraints":{
               "required":true,
               "regex":"^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\\d\\W])|(?=.*\\W)(?=.*\\d))|(?=.*\\W)(?=.*[A-Z])(?=.*\\d)).{6,72}$",
-              "validationMessage":"The password must be between 6 and 72 characters long, and contain characters from at least 3 of the following groups: uppercase characters, lowercase characters, numbers, and special characters."
+              "validationMessage":"The password must be between 6 and 72 characters long, and contain characters from at least 3 of the following groups: uppercase characters, lowercase characters, numbers, and special characters. regexp: ^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\\d\\W])|(?=.*\\W)(?=.*\\d))|(?=.*\\W)(?=.*[A-Z])(?=.*\\d)).{6,72}$"
             },
             "options":{
               "hideConfirmation":false

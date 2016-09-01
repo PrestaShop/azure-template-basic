@@ -153,7 +153,6 @@
       "sharTemplateURL":"[concat(parameters('templatesBaseURL'),'/nested/sharedRes.json')]",
       "prestaTemplateURL":"[concat(parameters('templatesBaseURL'),'/nested/prestashop.json')]"
     },
-    "dnsserver":"8.8.8.8",
     "subnetCIDR":".0/24",
     "hcOSDiskName":"hcosdisk",
     "diagnosticsStorageAccountName": "[concat(uniqueString(resourceGroup().id),'diag')]",
@@ -163,8 +162,8 @@
       "resources":{
         "deployments":"2015-01-01"
       },
-      "network":"2015-05-01-preview",
-      "storage":"2015-05-01-preview",
+      "network":"2016-08-01",
+      "storage":"2016-01-01",
       "compute":"2015-06-15",
       "deployment":"2016-02-01"
     },
@@ -187,6 +186,9 @@
           "contentVersion":"1.0.0.0"
         },
         "parameters":{
+          "location":{
+            "value":"[parameters('location')]"
+          },
           "diagnosticsStorageAccountName":{
             "value":"[variables('diagnosticsStorageAccountName')]"
           },
@@ -238,6 +240,12 @@
           "contentVersion":"1.0.0.0"
         },
         "parameters":{
+          "location":{
+            "value":"[parameters('location')]"
+          },
+          "templatesBaseURL":{
+            "value":"[parameters('templatesBaseURL')]"
+          },
           "adminUserName":{
             "value":"[parameters('adminUserName')]"
           },
@@ -298,7 +306,7 @@
   ],
   "outputs":{
     "Prestashop VM FQDN":{
-      "value":"[concat(parameters('dnsNameForAnsiblePublicIP'),'.',parameters('location'),'.cloudapp.azure.com')]",
+      "value":"[reference(parameters('dnsNameForAnsiblePublicIP')).dnsSettings.fqdn]",
       "type":"string"
     }
   }

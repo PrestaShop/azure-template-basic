@@ -6,7 +6,7 @@
       "type":"string",
       "metadata":{
         "description":"Storage Account Name for diags"
-      }      
+      }
     },
     "diagnosticsStorageAccountType":{
       "type":"string",
@@ -79,8 +79,8 @@
       "resources":{
         "deployments":"2015-01-01"
       },
-      "network":"2015-05-01-preview",
-      "storage":"2015-05-01-preview",
+      "network":"2016-08-01",
+      "storage":"2016-01-01",
       "compute":"2015-06-15",
       "deployment":"2016-02-01"
     }
@@ -97,15 +97,41 @@
       "properties":{
         "securityRules":[
           {
-            "name":"openbar-in",
+            "name":"http-sr",
             "properties":{
-              "protocol":"*",
+              "protocol":"TCP",
               "sourcePortRange":"*",
-              "destinationPortRange":"*",
+              "destinationPortRange":"80",
               "sourceAddressPrefix":"*",
               "destinationAddressPrefix":"*",
               "access":"Allow",
               "priority":101,
+              "direction":"Inbound"
+            }
+          },
+          {
+            "name":"https-sr",
+            "properties":{
+              "protocol":"TCP",
+              "sourcePortRange":"*",
+              "destinationPortRange":"443",
+              "sourceAddressPrefix":"*",
+              "destinationAddressPrefix":"*",
+              "access":"Allow",
+              "priority":102,
+              "direction":"Inbound"
+            }
+          },
+          {
+            "name":"ssh-sc",
+            "properties":{
+              "protocol":"TCP",
+              "sourcePortRange":"*",
+              "destinationPortRange":"22",
+              "sourceAddressPrefix":"*",
+              "destinationAddressPrefix":"*",
+              "access":"Allow",
+              "priority":100,
               "direction":"Inbound"
             }
           }
