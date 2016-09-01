@@ -28,14 +28,14 @@
     },
     "hcPublicIPAddressName":{
       "type":"string",
-      "defaultValue": "hcPublicIP", 
+      "defaultValue": "hcPublicIP",
       "metadata":{
         "description":"Public IP address Name for Prestashop VM"
       }
     },
     "dnsNameForAnsiblePublicIP":{
       "type":"string",
-      "defaultValue": "hcPublicIP", 
+      "defaultValue": "hcPublicIP",
       "metadata":{
         "description":"DNS Name for Prestashop VM"
       }
@@ -70,11 +70,16 @@
         "description":"Network Security group for Prestashop VM"
       },
       "defaultValue": "hcSecurityGroup"
+    },
+    "location":{
+      "type":"string",
+      "metadata":{
+        "description":"Deployment location"
+      }
     }
   },
   "variables": {
     "hcPublicIPAddressType":"Dynamic",
-    "location":"[resourceGroup().location]",
     "apiVersion":{
       "resources":{
         "deployments":"2015-01-01"
@@ -90,7 +95,7 @@
       "apiVersion":"[variables('apiVersion').network]",
       "type":"Microsoft.Network/networkSecurityGroups",
       "name":"[parameters('hcNetworkSecurityGroupName')]",
-      "location":"[variables('location')]",
+      "location":"[parameters('location')]",
       "tags":{
         "displayName":"HC-NetworkSecurityGroup"
       },
@@ -142,7 +147,7 @@
       "type":"Microsoft.Storage/storageAccounts",
       "name":"[toLower(parameters('hcStorageAccountName'))]",
       "apiVersion":"[variables('apiVersion').storage]",
-      "location":"[variables('location')]",
+      "location":"[parameters('location')]",
       "properties":{
         "accountType":"[parameters('hcStorageAccountType')]"
       }
@@ -151,7 +156,7 @@
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[parameters('diagnosticsStorageAccountName')]",
       "apiVersion":"[variables('apiVersion').storage]",
-      "location":"[variables('location')]",
+      "location":"[parameters('location')]",
       "properties": {
         "accountType": "[parameters('diagnosticsStorageAccountType')]"
       }
@@ -160,7 +165,7 @@
       "apiVersion":"[variables('apiVersion').network]",
       "type":"Microsoft.Network/publicIPAddresses",
       "name":"[parameters('hcPublicIPAddressName')]",
-      "location":"[variables('location')]",
+      "location":"[parameters('location')]",
       "properties":{
         "publicIPAllocationMethod":"[variables('hcPublicIPAddressType')]",
         "dnsSettings":{
@@ -172,7 +177,7 @@
       "apiVersion":"[variables('apiVersion').network]",
       "type":"Microsoft.Network/virtualNetworks",
       "name":"[parameters('virtualNetworkName')]",
-      "location":"[variables('location')]",
+      "location":"[parameters('location')]",
       "dependsOn":[
         "[concat('Microsoft.Network/networkSecurityGroups/', parameters('hcNetworkSecurityGroupName'))]"
       ],
