@@ -330,11 +330,5 @@
         }
       }
     }
-  ],
-  "outputs":{
-    "Prestashop VM FQDN":{
-      "value": "[reference(resourceId('Microsoft.Network/publicIPAddresses',parameters('dnsNameForAnsiblePublicIP'))).dnsSettings.fqdn]",
-      "type":"string"
-    }
-  }
+  ]
 }

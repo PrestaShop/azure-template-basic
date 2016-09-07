@@ -149,7 +149,7 @@
           {
             "name":"hcVmSize",
             "type":"Microsoft.Compute.SizeSelector",
-            "label":"JumpBox/NFS VM Size",
+            "label":"Prestashop VM Size",
             "toolTip":"The size of the Prestashop VM",
             "recommendedSizes":[
               "Standard_DS1",
