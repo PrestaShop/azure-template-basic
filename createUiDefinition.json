@@ -209,7 +209,7 @@
           {
             "name":"storageAccountJumpbox",
             "type":"Microsoft.Storage.StorageAccountSelector",
-            "label":"Storage account for Jumpbox/NFS",
+            "label":"Storage account for VM Disks",
             "toolTip":"Storage account where the Prestashop VM disks will be stored.",
             "defaultValue":{
               "type":"Premium_LRS"
