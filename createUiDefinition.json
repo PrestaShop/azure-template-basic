@@ -191,7 +191,12 @@
                 "Standard_F2",
                 "Standard_F4",
                 "Standard_F8",
-                "Standard_F16"
+                "Standard_F16",
+                "Standard_F1s",
+                "Standard_F2s",
+                "Standard_F4s",
+                "Standard_F8s",
+                "Standard_F16s"
               ],
               "excludedSizes":[
 
