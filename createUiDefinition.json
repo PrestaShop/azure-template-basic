@@ -8,7 +8,7 @@
         "type":"Microsoft.Common.DropDown",
         "label":"Database Shop Size",
         "defaultValue":"Small",
-        "toolTip":"The size of Disk virtual machine. version 1.5.5",
+        "toolTip":"The size of Disk virtual machine. (template version 1.5.6)",
         "constraints":{
           "allowedValues":[
             {
