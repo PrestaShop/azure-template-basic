@@ -186,7 +186,12 @@
                 "Standard_DS12_v2",
                 "Standard_DS13_v2",
                 "Standard_DS14_v2",
-                "Standard_DS15_v2"
+                "Standard_DS15_v2",
+                "Standard_F1",
+                "Standard_F2",
+                "Standard_F4",
+                "Standard_F8",
+                "Standard_F16"
               ],
               "excludedSizes":[
 
