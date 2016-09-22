@@ -28,7 +28,7 @@
     },
     "hcPublicIPAddressName":{
       "type":"string",
-      "defaultValue": "hcPublicIP",
+      "defaultValue": "pspubip",
       "metadata":{
         "description":"Public IP address Name for Prestashop VM"
       }
