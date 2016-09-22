@@ -306,8 +306,8 @@
     }
   ],
   "outputs":{
-    "Prestashop VM FQDN":{
-      "value": "[reference(resourceId('Microsoft.Network/publicIPAddresses',parameters('hcPublicIPAddressName')), variables('apiVersion').network).dnsSettings.fqdn]",
+    "prestashop_fqdn":{
+      "value": "[reference(resourceId('Microsoft.Network/publicIPAddresses',parameters('hcPublicIPAddressName')),providers('Microsoft.Network', 'publicIPAddresses').apiVersions[0]).dnsSettings.fqdn]",
       "type":"string"
     }
   }
