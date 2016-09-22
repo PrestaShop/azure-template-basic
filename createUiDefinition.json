@@ -79,12 +79,11 @@
               "domainNameLabel":"Domain Name Suffix for Prestashop VM"
             },
             "defaultValue":{
-              "publicIpAddressName":"pspubip"
+              "publicIpAddressName":"pspubip",
+              "domainNameLabel": "change_me_to_be_unique"
             },
             "constraints":{
-              "required":{
-                "domainNameLabel":true
-              }
+              "required": true
             },
             "options":{
               "hideNone":true,
