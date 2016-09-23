@@ -84,7 +84,7 @@
       "resources":{
         "deployments":"2015-01-01"
       },
-      "network":"2016-08-01",
+      "network":"2015-06-15",
       "storage":"2015-06-15",
       "compute":"2015-06-15",
       "deployment":"2016-02-01"
