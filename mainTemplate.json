@@ -307,7 +307,7 @@
   ],
   "outputs":{
     "prestashop_fqdn":{
-      "value": "[reference(resourceId('Microsoft.Network/publicIPAddresses',parameters('hcPublicIPAddressName')),providers('Microsoft.Network', 'publicIPAddresses').apiVersions[0]).dnsSettings.fqdn]",
+      "value": "debug OK",
       "type":"string"
     }
   }
