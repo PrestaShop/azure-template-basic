@@ -208,6 +208,7 @@
       "name":"[variables('hcNicName')]",
       "location":"[parameters('location')]",
       "dependsOn":[
+        "[concat('Microsoft.Network/publicIPAddresses/', parameters('hcPublicIPAddressName'))]"
       ],
       "properties":{
         "dnsSettings":{
