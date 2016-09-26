@@ -1,0 +1,205 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "diagnosticsStorageAccountName":{
+      "type":"string",
+      "metadata":{
+        "description":"Storage Account Name for diags"
+      }
+    },
+    "diagnosticsStorageAccountType":{
+      "type":"string",
+      "metadata":{
+        "description":"Storage Account type for diags"
+      }
+    },
+    "hcStorageAccountName":{
+      "type":"string",
+      "metadata": {
+        "description":"Storage Account Name for Prestashop VM"
+      }
+    },
+    "hcStorageAccountType":{
+      "type":"string",
+      "metadata":{
+        "description":"Storage Account type for Prestashop VM"
+      }
+    },
+    "hcPublicIPAddressName":{
+      "type":"string",
+      "defaultValue": "pspubip",
+      "metadata":{
+        "description":"Public IP address Name for Prestashop VM"
+      }
+    },
+    "dnsNameForAnsiblePublicIP":{
+      "type":"string",
+      "defaultValue": "hcPublicIP",
+      "metadata":{
+        "description":"DNS Name for Prestashop VM"
+      }
+    },
+    "virtualNetworkName":{
+      "type":"string",
+      "metadata": {
+        "description":"Virtual Network Name"
+      }
+    },
+    "addressPrefix":{
+      "type":"string",
+      "metadata": {
+        "description":"Virtual Network address Prefix"
+      }
+    },
+    "hcSubnetName":{
+      "type":"string",
+      "metadata": {
+        "description":"Name of Prestashop subnet"
+      }
+    },
+    "hcSubnetPrefix":{
+      "type":"string",
+      "metadata": {
+        "description":"Control VM Subnet Prefix"
+      }
+    },
+    "hcNetworkSecurityGroupName":{
+      "type":"string",
+      "metadata": {
+        "description":"Network Security group for Prestashop VM"
+      },
+      "defaultValue": "hcSecurityGroup"
+    },
+    "location":{
+      "type":"string",
+      "metadata":{
+        "description":"Deployment location"
+      }
+    }
+  },
+  "variables": {
+    "hcPublicIPAddressType":"Dynamic",
+    "apiVersion":{
+      "resources":{
+        "deployments":"2015-01-01"
+      },
+      "network":"2015-06-15",
+      "storage":"2015-06-15",
+      "compute":"2015-06-15",
+      "deployment":"2016-02-01"
+    }
+   },
+  "resources": [
+    { "comments":"OK: Network Security Group for Prestashop VM",
+      "apiVersion":"[variables('apiVersion').network]",
+      "type":"Microsoft.Network/networkSecurityGroups",
+      "name":"[parameters('hcNetworkSecurityGroupName')]",
+      "location":"[parameters('location')]",
+      "tags":{
+        "displayName":"HC-NetworkSecurityGroup"
+      },
+      "properties":{
+        "securityRules":[
+          {
+            "name":"http-sr",
+            "properties":{
+              "protocol":"TCP",
+              "sourcePortRange":"*",
+              "destinationPortRange":"80",
+              "sourceAddressPrefix":"*",
+              "destinationAddressPrefix":"*",
+              "access":"Allow",
+              "priority":101,
+              "direction":"Inbound"
+            }
+          },
+          {
+            "name":"https-sr",
+            "properties":{
+              "protocol":"TCP",
+              "sourcePortRange":"*",
+              "destinationPortRange":"443",
+              "sourceAddressPrefix":"*",
+              "destinationAddressPrefix":"*",
+              "access":"Allow",
+              "priority":102,
+              "direction":"Inbound"
+            }
+          },
+          {
+            "name":"ssh-sc",
+            "properties":{
+              "protocol":"TCP",
+              "sourcePortRange":"*",
+              "destinationPortRange":"22",
+              "sourceAddressPrefix":"*",
+              "destinationAddressPrefix":"*",
+              "access":"Allow",
+              "priority":100,
+              "direction":"Inbound"
+            }
+          }
+        ]
+      }
+    },
+    { "comments":"OK: Global Storage Account for  Prestashop VM",
+      "type":"Microsoft.Storage/storageAccounts",
+      "name":"[toLower(parameters('hcStorageAccountName'))]",
+      "apiVersion":"[variables('apiVersion').storage]",
+      "location":"[parameters('location')]",
+      "properties":{
+        "accountType":"[parameters('hcStorageAccountType')]"
+      }
+    },
+    { "comments":"OK: Global Storage Account for Diags",
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[parameters('diagnosticsStorageAccountName')]",
+      "apiVersion":"[variables('apiVersion').storage]",
+      "location":"[parameters('location')]",
+      "properties": {
+        "accountType": "[parameters('diagnosticsStorageAccountType')]"
+      }
+    },
+    { "comments":"OK: Public IP for  Prestashop VM",
+      "apiVersion":"[variables('apiVersion').network]",
+      "type":"Microsoft.Network/publicIPAddresses",
+      "name":"[parameters('hcPublicIPAddressName')]",
+      "location":"[parameters('location')]",
+      "properties":{
+        "publicIPAllocationMethod":"[variables('hcPublicIPAddressType')]",
+        "dnsSettings":{
+          "domainNameLabel":"[parameters('dnsNameForAnsiblePublicIP')]"
+        }
+      }
+    },
+    { "comments":"OK: Virtual Network with 1 subnet",
+      "apiVersion":"[variables('apiVersion').network]",
+      "type":"Microsoft.Network/virtualNetworks",
+      "name":"[parameters('virtualNetworkName')]",
+      "location":"[parameters('location')]",
+      "dependsOn":[
+        "[concat('Microsoft.Network/networkSecurityGroups/', parameters('hcNetworkSecurityGroupName'))]"
+      ],
+      "properties":{
+        "addressSpace":{
+          "addressPrefixes":[
+            "[parameters('addressPrefix')]"
+          ]
+        },
+        "subnets":[
+          {
+            "name":"[parameters('hcSubnetName')]",
+            "properties":{
+              "addressPrefix":"[parameters('hcSubnetPrefix')]",
+              "networkSecurityGroup":{
+                "id":"[resourceId('Microsoft.Network/networkSecurityGroups', parameters('hcNetworkSecurityGroupName'))]"
+              }
+            }
+          }
+        ]
+      }
+    }
+   ],
+  "outputs": { }
+}
