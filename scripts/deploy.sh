@@ -33,7 +33,7 @@ function ssh_config()
 function install_ansible()
 {
     log "Install software-properties-common ..."
-    until apt-get --yes install software-properties-common build-essential libssl-dev libffi-dev python-dev
+    until apt-get --yes install software-properties-common
     do
       log "Lock detected on apt-get while install Try again..."
       sleep 2
