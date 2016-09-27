@@ -161,18 +161,6 @@
         "accountType": "[parameters('diagnosticsStorageAccountType')]"
       }
     },
-    { "comments":"OK: Public IP for  Prestashop VM",
-      "apiVersion":"[variables('apiVersion').network]",
-      "type":"Microsoft.Network/publicIPAddresses",
-      "name":"[parameters('hcPublicIPAddressName')]",
-      "location":"[parameters('location')]",
-      "properties":{
-        "publicIPAllocationMethod":"[variables('hcPublicIPAddressType')]",
-        "dnsSettings":{
-          "domainNameLabel":"[parameters('dnsNameForAnsiblePublicIP')]"
-        }
-      }
-    },
     { "comments":"OK: Virtual Network with 1 subnet",
       "apiVersion":"[variables('apiVersion').network]",
       "type":"Microsoft.Network/virtualNetworks",

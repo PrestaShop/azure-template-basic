@@ -150,6 +150,7 @@
     }
   },
   "variables":{
+    "hcPublicIPAddressType":"Dynamic",
     "configuration":{
       "sharTemplateURL":"[concat(parameters('templatesBaseURL'),'/nested/sharedRes.json')]",
       "prestaTemplateURL":"[concat(parameters('templatesBaseURL'),'/nested/prestashop.json')]"
@@ -173,12 +174,25 @@
     "hcSubnetRoot":"[concat( split(parameters('hcSubnetPrefix'), '.')[0], '.', split(parameters('hcSubnetPrefix'), '.')[1], '.', split(parameters('hcSubnetPrefix'), '.')[2])]"
   },
   "resources":[
+    { "comments":"OK: Public IP for  Prestashop VM",
+      "apiVersion":"[variables('apiVersion').network]",
+      "type":"Microsoft.Network/publicIPAddresses",
+      "name":"[parameters('hcPublicIPAddressName')]",
+      "location":"[parameters('location')]",
+      "properties":{
+        "publicIPAllocationMethod":"[variables('hcPublicIPAddressType')]",
+        "dnsSettings":{
+          "domainNameLabel":"[parameters('dnsNameForAnsiblePublicIP')]"
+        }
+      }
+    },
     {
       "comments":"OK: Shared resource deployment",
       "name":"SharedDeployment",
       "type":"Microsoft.Resources/deployments",
       "apiVersion":"[variables('apiVersion').deployment]",
       "dependsOn":[
+        "[concat('Microsoft.Network/publicIPAddresses/', parameters('hcPublicIPAddressName'))]"
       ],
       "properties":{
         "mode":"Incremental",
@@ -307,7 +321,7 @@
   ],
   "outputs":{
     "prestashop_fqdn":{
-      "value": "[concat(parameters('hcPublicIPAddressName'),'.',parameters('location'),'.cloudapp.azure.com')]",
+      "value": "[reference(resourceId('Microsoft.Network/publicIPAddresses',parameters('hcPublicIPAddressName')),providers('Microsoft.Network', 'publicIPAddresses').apiVersions[0]).dnsSettings.fqdn]",
       "type":"string"
     }
   }
