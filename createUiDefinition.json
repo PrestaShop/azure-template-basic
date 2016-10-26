@@ -83,7 +83,9 @@
               "domainNameLabel": "change_me_to_be_unique"
             },
             "constraints":{
-              "required": true
+              "required": {
+                "domainNameLabel": true
+              }
             },
             "options":{
               "hideNone":true,
@@ -281,7 +283,7 @@
             "toolTip":"PrestaShop administrator password",
             "constraints":{
               "required":true,
-              "regex":"^[a-zA-Z0-9]{6,72}$",
+              "regex":"^[a-zA-Z0-9]{12,72}$",
               "validationMessage":"The password must be between 6 and 72 characters long and must contains only digits or characters. regex : ^[a-zA-Z0-9]{6,72}$"
             },
             "options":{
