@@ -182,7 +182,7 @@
         "deployments":"2015-01-01"
       },
       "network":"2015-06-15",
-      "storage":"2015-06-151",
+      "storage":"2015-06-15",
       "compute":"2015-06-15",
       "deployment":"2016-02-01"
     },
@@ -287,7 +287,7 @@
           "osDisk":{
             "name":"osdisk",
             "vhd":{
-              "uri":"[concat(reference(concat('Microsoft.Storage/storageAccounts/', parameters('hcStorageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).primaryEndpoints.blob, variables('hcVmStorageAccountContainerName'),'/', variables('hcOSDiskName'), '.vhd')]"
+              "uri":"[concat(reference(concat('Microsoft.Storage/storageAccounts/', parameters('hcStorageAccountName')), variables('apiVersion').storage).primaryEndpoints.blob, variables('hcVmStorageAccountContainerName'),'/', variables('hcOSDiskName'), '.vhd')]"
             },
             "caching":"ReadWrite",
             "createOption":"FromImage"
@@ -325,7 +325,7 @@
         "diagnosticsProfile":{
           "bootDiagnostics":{
             "enabled":"true",
-            "storageUri":"[concat(reference(concat('Microsoft.Storage/storageAccounts/', parameters('diagnosticsStorageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).primaryEndpoints.blob)]"
+            "storageUri":"[concat(reference(concat('Microsoft.Storage/storageAccounts/', parameters('diagnosticsStorageAccountName')), variables('apiVersion').storage).primaryEndpoints.blob)]"
           }
         }
       }
