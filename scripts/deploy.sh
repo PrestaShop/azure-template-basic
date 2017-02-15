@@ -106,7 +106,7 @@ function configure_ansible()
   error_log "Unable to create /etc/ansible directory"
 
   # Remove Deprecation warning
-  printf "[defaults]\ndeprecation_warnings = False\nhost_key_checking = False\n\n"    >>  "${ANSIBLE_CONFIG_FILE}"
+  printf "[defaults]\ndeprecation_warnings = False\nhost_key_checking = False\nexecutable = /bin/bash\n\n"    >>  "${ANSIBLE_CONFIG_FILE}"
 
   # Shorten the ControlPath to avoid errors with long host names , long user names or deeply nested home directories
   echo  $'[ssh_connection]\ncontrol_path = ~/.ssh/ansible-%%h-%%r'                    >> "${ANSIBLE_CONFIG_FILE}"
